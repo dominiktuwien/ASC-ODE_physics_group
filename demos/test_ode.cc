@@ -32,5 +32,5 @@ int main()
   auto rhs = make_shared<MassSpring>();
   
   SolveODE_IE(tend, steps, y, rhs,
-              [](double t, VectorView<double> y) { cout << t << "  " << y(0) << " " << y(1) << endl; });
+              [](double t, VectorView<double> y) { std::cout << t << "  " << y(0) << " " << y(1) << std::endl; });
 }
