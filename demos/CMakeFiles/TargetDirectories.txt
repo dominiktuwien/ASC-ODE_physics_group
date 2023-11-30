@@ -1,7 +1,0 @@
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/test_ode.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/test_newmark.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/test_alpha.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/INSTALL.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/ALL_BUILD.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/CMakeFiles/ZERO_CHECK.dir
-C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/src/CMakeFiles/INSTALL.dir
