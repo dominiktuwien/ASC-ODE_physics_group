@@ -64,7 +64,7 @@ namespace ASC_ode
   
   class SumFunction : public NonlinearFunction
   {
-    shared_ptr<NonlinearFunction> fa, fb;
+    auto shared_ptr<NonlinearFunction> fa, fb;
     double faca, facb;
   public:
     SumFunction (shared_ptr<NonlinearFunction> _fa,
