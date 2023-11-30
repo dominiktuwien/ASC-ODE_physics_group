@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\eichl\Uni\7. Semester\Scientific Computing\Git-Clone\ASC-ODE_physics_group\demos\CMakeFiles\7a7bb2a411ea41529cc4b34f2ef3e683\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A32C897E-B97D-3D8B-B609-863826ADDCC9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

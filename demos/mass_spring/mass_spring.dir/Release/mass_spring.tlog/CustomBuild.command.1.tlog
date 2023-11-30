@@ -1,0 +1,10 @@
+^C:\USERS\EICHL\UNI\7. SEMESTER\SCIENTIFIC COMPUTING\GIT-CLONE\ASC-ODE_PHYSICS_GROUP\MASS_SPRING\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group" "-BC:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos" --check-stamp-file "C:/Users/eichl/Uni/7. Semester/Scientific Computing/Git-Clone/ASC-ODE_physics_group/demos/mass_spring/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

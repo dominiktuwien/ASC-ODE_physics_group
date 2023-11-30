@@ -43,7 +43,7 @@ namespace ASC_ode
 
   class ConstantFunction : public NonlinearFunction
   {
-    Vector<> val;
+    Vector<size_t> val;
   public:
     ConstantFunction (VectorView<double> _val) : val(_val) { }
     void Set(VectorView<double> _val) { val = _val; }
@@ -78,14 +78,14 @@ namespace ASC_ode
     {
       fa->Evaluate(x, f);
       f *= faca;
-      Vector<> tmp(DimF());
+      Vector<size_t> tmp(DimF());
       fb->Evaluate(x, tmp);
       f += facb*tmp;
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       fa->EvaluateDeriv(x, df);
-      Matrix<> tmp(DimF(), DimX());
+      Matrix<size_t> tmp(DimF(), DimX());
       tmp *= faca;
       fb->EvaluateDeriv(x, tmp);
       df += facb*tmp;
@@ -149,17 +149,17 @@ namespace ASC_ode
     size_t DimF() const override { return fa->DimF(); }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
-      Vector<> tmp(fb->DimF());
+      Vector<size_t> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       fa->Evaluate (tmp, f);
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
-      Vector<> tmp(fb->DimF());
+      Vector<size_t> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       
-      Matrix<> jaca(fa->DimF(), fa->DimX());
-      Matrix<> jacb(fb->DimF(), fb->DimX());
+      Matrix<size_t> jaca(fa->DimF(), fa->DimX());
+      Matrix<size_t> jacb(fb->DimF(), fb->DimX());
       
       fb->EvaluateDeriv(x, jacb);
       fa->EvaluateDeriv(tmp, jaca);
