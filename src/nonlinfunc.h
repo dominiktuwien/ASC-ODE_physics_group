@@ -85,8 +85,8 @@ namespace ASC_ode
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       fa->EvaluateDeriv(x, df);
+      df *= faca;
       Matrix<> tmp(DimF(), DimX());
-      tmp *= faca;
       fb->EvaluateDeriv(x, tmp);
       df += facb*tmp;
     }
