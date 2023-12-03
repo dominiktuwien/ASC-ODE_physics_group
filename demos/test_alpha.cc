@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <nonlinfunc.h>
 #include <ode.h>
 
@@ -48,6 +50,6 @@ int main()
   
   SolveODE_Alpha (tend, steps, 0.8, x, dx, ddx, rhs, mass, 
                    // [](double t, VectorView<double> x) { cout << "t = " << t << ", x = " << x(0) << " " << x(1) << " " << x(2) << endl; }
-                   [](double t, VectorView<double> x) { cout << t << " " << x(0) << " " << x(1) << " " << x(2) << endl; }                   
+                   [](double t, VectorView<double> x) { std::cout << t << " " << x(0) << " " << x(1) << " " << x(2) << std::endl; }                   
                    );
 }

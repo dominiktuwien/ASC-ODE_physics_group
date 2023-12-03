@@ -15,13 +15,13 @@ include_directories(ASC-bla_group/src)
 add_subdirectory (src)
 
 add_executable (test_ode demos/test_ode.cc)
-target_link_libraries (test_ode PUBLIC ngbla)
+#target_link_libraries (test_ode PUBLIC ngbla)
 
-add_executable (test_newmark demos/test_newmark.cc)
-target_link_libraries (test_newmark PUBLIC ngbla)
+#add_executable (test_newmark demos/test_newmark.cc)
+#target_link_libraries (test_newmark PUBLIC ngbla)
 
-add_executable (test_alpha demos/test_alpha.cc)
-target_link_libraries (test_alpha PUBLIC ngbla)
+#add_executable (test_alpha demos/test_alpha.cc)
+#target_link_libraries (test_alpha PUBLIC ngbla)
 
 
 #add_subdirectory (mass_spring)
