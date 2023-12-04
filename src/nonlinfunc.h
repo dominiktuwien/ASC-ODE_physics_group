@@ -96,7 +96,7 @@ namespace ASC_ode
       fa->EvaluateDeriv(x, df);
       df *= faca;
       std::cout << "faca*df = " << df << std::endl;
-      Matrix<> tmp(DimF(), DimX());      
+      MatrixView<double> tmp(DimF(), DimX());      
       fb->EvaluateDeriv(x, tmp);
       df += facb*tmp;
       std::cout << "sum= " << df << std::endl;
@@ -160,17 +160,17 @@ namespace ASC_ode
     size_t DimF() const override { return fa->DimF(); }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
-      Vector<size_t> tmp(fb->DimF());
+      VectorView<double> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       fa->Evaluate (tmp, f);
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
-      Vector<size_t> tmp(fb->DimF());
+      VectorView<double> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       
-      Matrix<size_t> jaca(fa->DimF(), fa->DimX());
-      Matrix<size_t> jacb(fb->DimF(), fb->DimX());
+      MatrixView<double> jaca(fa->DimF(), fa->DimX());
+      MatrixView<double> jacb(fb->DimF(), fb->DimX());
       
       fb->EvaluateDeriv(x, jacb);
       fa->EvaluateDeriv(tmp, jaca);
