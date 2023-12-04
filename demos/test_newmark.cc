@@ -1,5 +1,8 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <nonlinfunc.h>
 #include <ode.h>
+
 
 using namespace ASC_ode;
 
@@ -14,7 +17,7 @@ class RHS : public NonlinearFunction
   }
   void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
   {
-    df(0) = -1;
+    df(0,0) = -1;
   }
 };
 
@@ -24,10 +27,10 @@ int main()
   double tend = 2*M_PI;
   int steps = 100;
   Vector<> x { 1, };
-  Vector<> dx { 0. };
+  Vector<> dx { 0., };
   auto rhs = make_shared<RHS>();
   auto mass = make_shared<IdentityFunction>(1);
   SolveODE_Newmark(tend, steps, x, dx, rhs, mass,
-                   [](double t, VectorView<double> x) { cout << "t = " << t << ", x = " << x(0) << endl; }
+                   [](double t, VectorView<double> x) { std::cout << "t = " << t << ", x = " << x(0) << std::endl; }
                    );
 }

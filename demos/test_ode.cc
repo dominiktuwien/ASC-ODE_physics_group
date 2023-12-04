@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include <nonlinfunc.h>
 #include <ode.h>
 
@@ -13,6 +15,7 @@ class MassSpring : public NonlinearFunction
   {
     f(0) = x(1);
     f(1) = -x(0);
+    std::cout << "here" << f << std::endl;
   }
   
   void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
@@ -28,7 +31,9 @@ int main()
 {
   double tend = 4*M_PI;
   int steps = 100;
-  Vector<> y { 1, 0 };
+  Vector<> y(2);
+  y(0) = 1;
+  y(1) = 0;
   auto rhs = make_shared<MassSpring>();
   
   SolveODE_IE(tend, steps, y, rhs,

@@ -5,11 +5,13 @@
 #include <Matrix-Neu-using_expressions.h>
 
 
+
 namespace ASC_ode
 {
   using namespace ASC_bla;
   using std::shared_ptr;
   using std::make_shared;
+
   class NonlinearFunction
   {
   public:
@@ -25,7 +27,7 @@ namespace ASC_ode
   {
     size_t n;
   public:
-    IdentityFunction (size_t _n) : n(_n) { } 
+    IdentityFunction (size_t _n) : n(_n) { std::cout << " identity func" << n << std::endl; } 
     size_t DimX() const override { return n; }
     size_t DimF() const override { return n; }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
@@ -46,7 +48,7 @@ namespace ASC_ode
   {
     Vector<double> val;
   public:
-    ConstantFunction (VectorView<double> _val) : val(_val) { }
+    ConstantFunction (VectorView<double> _val) : val(_val) { std::cout <<"constant func" << val << std::endl; }
     void Set(VectorView<double> _val) { val = _val; }
     VectorView<double> Get() const { return val.View(); }
     size_t DimX() const override { return val.Size(); }
@@ -65,7 +67,7 @@ namespace ASC_ode
   
   class SumFunction : public NonlinearFunction
   {
-    auto shared_ptr<NonlinearFunction> fa, fb;
+    shared_ptr<NonlinearFunction> fa, fb;
     double faca, facb;
   public:
     SumFunction (shared_ptr<NonlinearFunction> _fa,
@@ -77,19 +79,27 @@ namespace ASC_ode
     size_t DimF() const override { return fa->DimF(); }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
+      
+      std::cout << "x=" << x << std::endl;
       fa->Evaluate(x, f);
+      std::cout << "f=" << f << std::endl;
+      std::cout << "x=" << x << std::endl;
       f *= faca;
-      Vector<size_t> tmp(DimF());
+      std::cout << "f*faca" << f << std::endl;
+      Vector<> tmp(DimF());
       fb->Evaluate(x, tmp);
       f += facb*tmp;
+      std::cout << "sum=" << f << std::endl;
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       fa->EvaluateDeriv(x, df);
-      Matrix<size_t> tmp(DimF(), DimX());
-      tmp *= faca;
+      df *= faca;
+      std::cout << "faca*df = " << df << std::endl;
+      Matrix<> tmp(DimF(), DimX());      
       fb->EvaluateDeriv(x, tmp);
       df += facb*tmp;
+      std::cout << "sum= " << df << std::endl;
     }
   };
 
@@ -200,7 +210,7 @@ namespace ASC_ode
     {
       df = 0;
       fa->EvaluateDeriv(x.Range(firstx, nextx),
-                        df.Rows(firstf, nextf).Cols(firstx, nextx));      
+                        df.Rows(firstf, nextf).Columns(firstx, nextx));      
     }
   };
 
