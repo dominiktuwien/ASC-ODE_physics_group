@@ -173,14 +173,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\eichl\Uni\7. Semester\Scientific Computing\Git-Clone\ASC-ODE_physics_group\demos\test_alpha.vcxproj">
-      <Project>{16456966-9F4B-3416-902F-937A20BEA2B0}</Project>
-      <Name>test_alpha</Name>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\eichl\Uni\7. Semester\Scientific Computing\Git-Clone\ASC-ODE_physics_group\demos\test_newmark.vcxproj">
-      <Project>{2019CB73-F2A7-317E-AA51-AF525864860D}</Project>
-      <Name>test_newmark</Name>
-    </ProjectReference>
     <ProjectReference Include="C:\Users\eichl\Uni\7. Semester\Scientific Computing\Git-Clone\ASC-ODE_physics_group\demos\test_ode.vcxproj">
       <Project>{3118DA47-299C-3C87-9D1E-B1C2607DD4A6}</Project>
       <Name>test_ode</Name>

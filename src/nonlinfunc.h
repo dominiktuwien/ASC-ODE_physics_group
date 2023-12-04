@@ -8,7 +8,8 @@
 namespace ASC_ode
 {
   using namespace ASC_bla;
-
+  using std::shared_ptr;
+  using std::make_shared;
   class NonlinearFunction
   {
   public:
@@ -43,7 +44,7 @@ namespace ASC_ode
 
   class ConstantFunction : public NonlinearFunction
   {
-    Vector<size_t> val;
+    Vector<double> val;
   public:
     ConstantFunction (VectorView<double> _val) : val(_val) { }
     void Set(VectorView<double> _val) { val = _val; }
