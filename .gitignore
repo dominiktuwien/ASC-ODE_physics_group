@@ -1,3 +1,5 @@
+/build
+
 # Prerequisites
 *.d
 
@@ -31,4 +33,3 @@
 *.out
 *.app
 
-/build

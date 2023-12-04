@@ -6,12 +6,13 @@ set (CMAKE_CXX_STANDARD 17)
 
 # use linalg from NGSolve, otherwise comment it out
 #find_package(NGSolve CONFIG REQUIRED
- # HINTS /usr $ENV{NETGENDIR}/.. /tmp/inst/usr /opt/netgen/ /Applications/Netgen.app/Contents/Resources/CMake C:/netgen
+#  HINTS /usr $ENV{NETGENDIR}/.. /tmp/inst/usr /opt/netgen/ /Applications/Netgen.app/Contents/Resources/CMake C:/netgen
 #)
 
 
 include_directories(src)
 include_directories(ASC-bla_group/src)
+include_directories(ASC-bla-group/ASC-HPC_physics_group/src)
 add_subdirectory (src)
 
 add_executable (test_ode demos/test_ode.cc)
