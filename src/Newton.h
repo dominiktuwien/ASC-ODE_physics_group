@@ -11,27 +11,27 @@ namespace ASC_ode
                      std::function<void(int,double,VectorView<double>)> callback = nullptr)
   {
     Vector<> res(func->DimF());
-    std::cout << "res= " << res << std::endl;
+    //std::cout << "res= " << res << std::endl;
     Matrix<> fprime(func->DimF(), func->DimX());
-    std::cout << "x=" << x << std::endl;
+    //std::cout << "x=" << x << std::endl;
     for (int i = 0; i < maxsteps; i++)
       {
         func->Evaluate(x, res);
-        std::cout << "res= " << res << std::endl;
+        //std::cout << "res after eval= " << res << std::endl;
         // cout << "|res| = " << L2Norm(res) << endl;
         func->EvaluateDeriv(x, fprime);
-        std::cout << "fprime= "<< fprime << std::endl;
+        //std::cout << "fprime= "<< fprime << std::endl;
         fprime = fprime.inverse();
-        std::cout << "inv fprime= "<< fprime << std::endl;
+        //std::cout << "inv fprime= "<< fprime << std::endl;
         x -= fprime*res;
-        std::cout << "newx= "<< x << std::endl;
+        //std::cout << "newx= "<< x << std::endl;
 
         double err= L2Norm(res);
         if (callback)
           callback(i, err, x);
         if (err < tol) return;
       }
-
+    std::cout << "Newton no convergenzo" << std::endl;
     throw std::domain_error("Newton did not converge");
   }
 
