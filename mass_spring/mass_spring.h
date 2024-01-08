@@ -7,9 +7,12 @@
 #include <ode.h>
 
 using namespace ASC_ode;
+using namespace ASC_bla;
 
-#include <vector.hpp>
-using namespace ngbla;
+#include <vector.h>
+using namespace std;
+//using namespace ngbla;
+
 
 
 
@@ -197,7 +200,7 @@ public:
         xr(i) += eps;
         Evaluate (xl, fl);
         Evaluate (xr, fr);
-        df.Col(i) = 1/(2*eps) * (fr-fl);
+        df.Column(i) = 1/(2*eps) * (fr-fl);
       }
   }
   

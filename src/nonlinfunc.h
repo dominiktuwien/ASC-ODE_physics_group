@@ -4,6 +4,8 @@
 #include <vector.h>
 #include <Matrix-Neu-using_expressions.h>
 
+#include <memory> // fix?
+
 
 
 namespace ASC_ode
@@ -27,7 +29,7 @@ namespace ASC_ode
   {
     size_t n;
   public:
-    IdentityFunction (size_t _n) : n(_n) { std::cout << " identity func" << n << std::endl; } 
+    IdentityFunction (size_t _n) : n(_n) { } 
     size_t DimX() const override { return n; }
     size_t DimF() const override { return n; }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
@@ -48,7 +50,7 @@ namespace ASC_ode
   {
     Vector<double> val;
   public:
-    ConstantFunction (VectorView<double> _val) : val(_val) { std::cout <<"constant func" << val << std::endl; }
+    ConstantFunction (VectorView<double> _val) : val(_val) { }
     void Set(VectorView<double> _val) { val = _val; }
     VectorView<double> Get() const { return val.View(); }
     size_t DimX() const override { return val.Size(); }
@@ -60,6 +62,7 @@ namespace ASC_ode
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       df = 0.0;
+      //df.Diag() = 1.0;
     }
   };
 
@@ -80,26 +83,28 @@ namespace ASC_ode
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
       
-      std::cout << "x=" << x << std::endl;
+      //std::cout << "x=" << x << std::endl;
       fa->Evaluate(x, f);
-      std::cout << "f=" << f << std::endl;
-      std::cout << "x=" << x << std::endl;
+      //std::cout << "f=" << f << std::endl;
+      //std::cout << "x=" << x << std::endl;
       f *= faca;
-      std::cout << "f*faca" << f << std::endl;
+      //std::cout << "f*faca" << f << std::endl;
       Vector<> tmp(DimF());
       fb->Evaluate(x, tmp);
       f += facb*tmp;
-      std::cout << "sum=" << f << std::endl;
+      //std::cout << "sum=" << f << std::endl;
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       fa->EvaluateDeriv(x, df);
       df *= faca;
-      std::cout << "faca*df = " << df << std::endl;
-      MatrixView<double> tmp(DimF(), DimX());      
+      //std::cout << "faca*df = " << df << std::endl;
+      Matrix<> tmp(DimF(), DimX());     
       fb->EvaluateDeriv(x, tmp);
+      //std::cout << "df bf in Sumfunc: " << df << std::endl;
       df += facb*tmp;
-      std::cout << "sum= " << df << std::endl;
+      //std::cout << "df after in Sumfunc: " << df << std::endl;
+      //std::cout << "sum= " << df << std::endl;
     }
   };
 
@@ -160,17 +165,19 @@ namespace ASC_ode
     size_t DimF() const override { return fa->DimF(); }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
-      VectorView<double> tmp(fb->DimF());
+      Vector<> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       fa->Evaluate (tmp, f);
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
-      VectorView<double> tmp(fb->DimF());
+      Vector<> tmp(fb->DimF());
       fb->Evaluate (x, tmp);
       
-      MatrixView<double> jaca(fa->DimF(), fa->DimX());
-      MatrixView<double> jacb(fb->DimF(), fb->DimX());
+      Matrix<> jaca(fa->DimF(), fa->DimX());
+      Matrix<> jacb(fb->DimF(), fb->DimX());
+      // Matrix<double> jaca(fa->DimF(), fa->DimX());
+      // Matrix<double> jacb(fb->DimF(), fb->DimX());
       
       fb->EvaluateDeriv(x, jacb);
       fa->EvaluateDeriv(tmp, jaca);

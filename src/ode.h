@@ -17,12 +17,13 @@ namespace ASC_ode
                    std::function<void(double,VectorView<double>)> callback = nullptr)
   {
     double dt = tend/steps;
+    //double dt = 1;
     auto yold = make_shared<ConstantFunction>(y);
     auto ynew = make_shared<IdentityFunction>(y.Size());
     auto equ = ynew-yold - dt * rhs;
 
     double t = 0;
-    steps = 2;
+    //steps = 1;
     for (int i = 0; i < steps; i++)
       {
         NewtonSolver (equ, y);
