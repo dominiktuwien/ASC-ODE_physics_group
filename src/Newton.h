@@ -34,7 +34,6 @@ namespace ASC_ode
           callback(i, err, x);
         if (err < tol) return;
       }
-    std::cout << "Newton no convergenzo" << std::endl;
     throw std::domain_error("Newton did not converge");
   }
 

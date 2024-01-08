@@ -37,14 +37,32 @@ int main()
   y(1) = 0;
   auto rhs = make_shared<MassSpring>();
   
-  /*
-  SolveODE_IE(tend, steps, y, rhs,
+  
+  /*SolveODE_IE(tend, steps, y, rhs,
+              [](double t, VectorView<double> y) { std::cout << t << "  " << y(0) << " " << y(1) << std::endl; });
+  
+  SolveODE_EE(tend, steps, y, rhs,
+              [](double t, VectorView<double> y) { std::cout << t << "  " << y(0) << " " << y(1) << std::endl; });
+  
+  SolveODE_CN(tend, steps, y, rhs,
               [](double t, VectorView<double> y) { std::cout << t << "  " << y(0) << " " << y(1) << std::endl; });
   */
 
+  
   //write output on txt file for plotting in ODE_plot.ipynb
-  std::ofstream outf("test_ode_ie.txt");
+  std::ofstream outf1("results_ode_ie.txt"), outf2("results_ode_ee.txt"), outf3("results_ode_cn.txt");
+
   SolveODE_IE(tend, steps, y, rhs,
-              [&outf](double t, VectorView<double> y) { outf << t << "  " << y(0) << " " << y(1) << std::endl; });
-  outf.close();
+              [&outf1](double t, VectorView<double> y) { outf1 << t << "  " << y(0) << " " << y(1) << std::endl; });
+  outf1.close();
+
+  SolveODE_EE(tend, steps, y, rhs,
+              [&outf2](double t, VectorView<double> y) { outf2 << t << "  " << y(0) << " " << y(1) << std::endl; });
+  outf2.close();
+  
+  SolveODE_CN(tend, steps, y, rhs,
+              [&outf3](double t, VectorView<double> y) { outf3 << t << "  " << y(0) << " " << y(1) << std::endl; });
+  outf3.close();
+
+  
 }

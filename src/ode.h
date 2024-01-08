@@ -34,6 +34,58 @@ namespace ASC_ode
   }
 
   
+  // explicit Euler method
+  // TODO: divergiert, Methode einfach nicht geeignet oder falsch implementiert?
+  void SolveODE_EE(double tend, int steps,
+                   VectorView<double> y, shared_ptr<NonlinearFunction> rhs,
+                   std::function<void(double,VectorView<double>)> callback = nullptr)
+  {
+    double dt = tend/steps;
+    auto yold = make_shared<ConstantFunction>(y);
+    auto ynew = make_shared<IdentityFunction>(y.Size());
+    double t = 0;
+  
+    for (int i = 0; i < steps; i++)
+      {
+        rhs->Evaluate(yold->Get(), y);
+        y = yold->Get() + dt*y;
+
+        yold->Set(y);
+        t += dt;
+        if (callback) callback(t, y);
+      }
+  }
+
+  
+  // Crank Nicolson method
+  // TODO: periodisch, keine Konvergenz, selbe Frage wie bei explicit Euler
+  void SolveODE_CN(double tend, int steps,
+                   VectorView<double> y, shared_ptr<NonlinearFunction> rhs,
+                   std::function<void(double,VectorView<double>)> callback = nullptr)
+  {
+    double dt = tend/steps;
+    auto yold = make_shared<ConstantFunction>(y);
+    auto ynew = make_shared<IdentityFunction>(y.Size());
+
+    auto rhs_old = Compose(rhs, yold);
+    auto rhs_new = Compose(rhs, ynew);
+    auto equ = ynew-yold - 0.5 * dt * (rhs_old + rhs_new);
+
+    double t = 0;
+
+    for (int i = 0; i < steps; i++)
+      {
+        NewtonSolver (equ, y);
+        yold->Set(y);
+        t += dt;
+        if (callback) callback(t, y);
+      }
+  }
+
+  
+
+
+  
 
   
   

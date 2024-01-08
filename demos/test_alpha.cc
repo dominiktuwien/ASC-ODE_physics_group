@@ -56,7 +56,7 @@ int main()
   */
 
   //write output on txt file for plotting in ODE_plot.ipynb
-  std::ofstream outf("test_ode_alpha.txt");
+  std::ofstream outf("results_alpha.txt");
   SolveODE_Alpha (tend, steps, 0.8, x, dx, ddx, rhs, mass, 
                    [&outf](double t, VectorView<double> x) { outf << t << " " << x(0) << " " << x(1) << " " << x(2) << std::endl; }                   
                    );

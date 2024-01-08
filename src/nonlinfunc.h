@@ -102,7 +102,7 @@ namespace ASC_ode
       fa->EvaluateDeriv(x, df);
       df *= faca;
       //std::cout << "faca*df = " << df << std::endl;
-      MatrixView<double> tmp(DimF(), DimX());      
+      Matrix<double> tmp(DimF(), DimX());      
       fb->EvaluateDeriv(x, tmp);
       //std::cout << "df bf in Sumfunc: " << df << std::endl;
       df += facb*tmp;
