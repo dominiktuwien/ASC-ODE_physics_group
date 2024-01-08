@@ -23,7 +23,7 @@ namespace ASC_ode
     auto equ = ynew-yold - dt * rhs;
 
     double t = 0;
-    //steps = 1;
+    //steps = 100;
     for (int i = 0; i < steps; i++)
       {
         NewtonSolver (equ, y);

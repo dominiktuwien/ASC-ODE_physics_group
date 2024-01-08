@@ -29,7 +29,7 @@ namespace ASC_ode
   {
     size_t n;
   public:
-    IdentityFunction (size_t _n) : n(_n) { } 
+    IdentityFunction (size_t _n) : n(_n) {  } 
     size_t DimX() const override { return n; }
     size_t DimF() const override { return n; }
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
@@ -40,7 +40,9 @@ namespace ASC_ode
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       df = 0.0;
+      //disabled, because it caused a wrong result when compared to an online newton solver for our problem
       df.Diag() = 1.0;
+      //std::cout << "Diag - Matr = " << df << std::endl;
     }
   };
 
@@ -50,7 +52,7 @@ namespace ASC_ode
   {
     Vector<double> val;
   public:
-    ConstantFunction (VectorView<double> _val) : val(_val) { }
+    ConstantFunction (VectorView<double> _val) : val(_val) {  }
     void Set(VectorView<double> _val) { val = _val; }
     VectorView<double> Get() const { return val.View(); }
     size_t DimX() const override { return val.Size(); }
@@ -62,6 +64,7 @@ namespace ASC_ode
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       df = 0.0;
+      //added as test to see if newton conv.
       //df.Diag() = 1.0;
     }
   };
@@ -83,7 +86,7 @@ namespace ASC_ode
     void Evaluate (VectorView<double> x, VectorView<double> f) const override
     {
       
-      //std::cout << "x=" << x << std::endl;
+      //std::cout << "x bf sum eval= " << x << std::endl;
       fa->Evaluate(x, f);
       //std::cout << "f=" << f << std::endl;
       //std::cout << "x=" << x << std::endl;
@@ -92,19 +95,19 @@ namespace ASC_ode
       Vector<> tmp(DimF());
       fb->Evaluate(x, tmp);
       f += facb*tmp;
-      //std::cout << "sum=" << f << std::endl;
+      //std::cout << "f += facb*tmp" << f << std::endl;
     }
     void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const override
     {
       fa->EvaluateDeriv(x, df);
       df *= faca;
       //std::cout << "faca*df = " << df << std::endl;
-      Matrix<> tmp(DimF(), DimX());     
+      MatrixView<double> tmp(DimF(), DimX());      
       fb->EvaluateDeriv(x, tmp);
       //std::cout << "df bf in Sumfunc: " << df << std::endl;
       df += facb*tmp;
-      //std::cout << "df after in Sumfunc: " << df << std::endl;
-      //std::cout << "sum= " << df << std::endl;
+      //df = tmp;
+      //std::cout << "df += facb*tmp " << df << std::endl;
     }
   };
 
