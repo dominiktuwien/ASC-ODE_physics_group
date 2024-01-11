@@ -10,6 +10,7 @@ using namespace ASC_ode;
 using namespace ASC_bla;
 
 #include <vector.h>
+#include <array>
 using namespace std;
 //using namespace ngbla;
 
