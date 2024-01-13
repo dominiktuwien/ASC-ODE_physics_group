@@ -6,6 +6,9 @@
 
 using namespace ASC_ode;
 
+// TODO: Newton does not converge, results of explicit Euler don't seem right -> fix
+
+
 // ODE: U_C + RC * U_C'(t) = U_0(t), with U_0(t) = cos(100 * pi * t)
 // -> U_C'(t) = (cos(100*pi*t) - U_C(t)) / RC
 // autonomous form: new variable y2(t) := t where y2'(t)=1
@@ -42,14 +45,17 @@ int main()
   y(1) = 0;
   auto rhs = make_shared<ElectricalCircuit>();
   
-  /*
+  
   SolveODE_IE(tend, steps, y, rhs,
-              [](double t, VectorView<double> y) { std::cout << t << "  " << cos(100*M_PI*t) << " " << y(1) << std::endl; });
-  */
+              [](double t, VectorView<double> y) { std::cout << t << "  " << t << " " << y(1) << std::endl; });
+  
+  /*
   std::ofstream outf("RC_EE.txt");
   SolveODE_EE(tend, steps, y, rhs,
               [&outf](double t, VectorView<double> y) { outf << t << "  " << y(0) << " " << y(1) << std::endl; });
   outf.close();
+  */
+  
   /*
   SolveODE_CN(tend, steps, y, rhs,
               [](double t, VectorView<double> y) { std::cout << t << "  " << y(0) << " " << y(1) << std::endl; });

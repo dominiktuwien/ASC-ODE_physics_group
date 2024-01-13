@@ -1,4 +1,5 @@
 #include "mass_spring.h"
+#include <fstream>
 
 int main()
 {
@@ -25,8 +26,16 @@ int main()
   auto mass = make_shared<IdentityFunction> (x.Size());      
 
   mss.GetState (x, dx, ddx);
+
   
   SolveODE_Newmark(tend, steps, x, dx,  mss_func, mass,
                    [](double t, VectorView<double> x) { cout << "t = " << t
                                                              << ", x = " << Vec<4>(x) << endl; });
+
+  /*
+  std::ofstream outf("MassSpring_Newmark.txt");
+  SolveODE_Newmark(tend, steps, x, dx,  mss_func, mass,
+                   [&outf](double t, VectorView<double> x) { outf << t << ", " << Vec<4>(x) << endl; });
+  outf.close();    
+  */           
 }
