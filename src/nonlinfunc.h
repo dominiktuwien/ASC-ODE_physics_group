@@ -247,6 +247,62 @@ namespace ASC_ode
     }
   };
 
+
+  class MultipleFunc : public NonlinearFunction
+  {
+    shared_ptr<NonlinearFunction> func;
+    size_t num, fdimx, fdimf;
+  public:
+    MultipleFunc (shared_ptr<NonlinearFunction> _func, int _num)
+      : func(_func), num(_num)
+    {
+      fdimx = func->DimX();
+      fdimf = func->DimF();
+    }
+
+    virtual size_t DimX() const { return num * fdimx; } 
+    virtual size_t DimF() const { return num * fdimf; }
+    virtual void Evaluate (VectorView<double> x, VectorView<double> f) const
+    {
+      for (size_t i = 0; i < num; i++)
+        func->Evaluate(x.Range(i*fdimx, (i+1)*fdimx),
+                       f.Range(i*fdimf, (i+1)*fdimf));
+    }
+    virtual void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const
+    {
+      df = 0.0;
+      for (size_t i = 0; i < num; i++)
+        func->EvaluateDeriv(x.Range(i*fdimx, (i+1)*fdimx),
+                            df.Rows(i*fdimf, (i+1)*fdimf).Columns(i*fdimx, (i+1)*fdimx));
+    }
+  };
+
+
+  class MatVecFunc : public NonlinearFunction
+  {
+    Matrix<> a;
+    size_t n;
+  public:
+    MatVecFunc (Matrix<> _a, size_t _n)
+      : a(_a), n(_n) { }
+
+    virtual size_t DimX() const { return n*a.Get_height(); } 
+    virtual size_t DimF() const { return n*a.Get_width(); }
+    virtual void Evaluate (VectorView<double> x, VectorView<double> f) const
+    {
+      MatrixView<> mx(a.Get_width(), n, x.Data(), n);
+      MatrixView<> mf(a.Get_height(), n, f.Data(), n);
+      mf = a * mx;
+    }
+    virtual void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const
+    {
+      df = 0.0;
+      for (size_t i = 0; i < a.Get_height(); i++)
+        for (size_t j = 0; j < a.Get_width(); j++)
+          df.Rows(i*n, (i+1)*n).Columns(j*n, (j+1)*n).Diag() = a(i,j);
+    }
+  };
+
   
 }
 

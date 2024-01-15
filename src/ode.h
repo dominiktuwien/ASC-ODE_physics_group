@@ -33,6 +33,8 @@ namespace ASC_ode
       }
   }
 
+
+
   
   // explicit Euler method
   // TODO: divergiert, Methode einfach nicht geeignet oder falsch implementiert?
@@ -87,6 +89,75 @@ namespace ASC_ode
 
   
 
+
+  // implicit Euler method for dy/dt = rhs(y)
+  void SolveODE_RK(double tend, int steps,
+                   Matrix<> a, Vector<> b, Vector<> c,
+                   VectorView<double> y, shared_ptr<NonlinearFunction> rhs,
+                   std::function<void(double,VectorView<double>)> callback = nullptr)
+  {
+    double dt = tend/steps;
+    int s = c.Size();
+    int n = y.Size();
+
+    /*
+    auto multiple_rhs = make_shared<MultipleFunc>(rhs, s);
+    Vector<> my(s*y.Size());
+    Vector<> mf(s*y.Size());  
+    auto myold = make_shared<ConstantFunction>(my);
+    auto mynew = make_shared<IdentityFunction>(s*n);
+    auto equ = mynew-myold - dt * Compose(make_shared<MatVecFunc>(a, n), multiple_rhs);
+                                          
+      
+    double t = 0;
+    for (int i = 0; i < steps; i++)
+      {
+        cout << "step " << i << endl;
+        for (int j = 0; j < s; j++)
+          my.Range(j*n, (j+1)*n) = y;
+        myold->Set(my);
+        
+        NewtonSolver (equ, my);
+
+        multiple_rhs->Evaluate(my, mf);
+        for (int j = 0; j < s; j++)
+          y += dt * b(j) * mf.Range(j*n, (j+1)*n);
+        
+        t += dt;
+        if (callback) callback(t, y);
+      }
+    */
+
+    auto multiple_rhs = make_shared<MultipleFunc>(rhs, s);
+    Vector<> mk(s*y.Size());
+    Vector<> my(s*y.Size());    
+    auto myold = make_shared<ConstantFunction>(my);
+    auto knew = make_shared<IdentityFunction>(s*n);
+    auto equ = knew - Compose(multiple_rhs, myold+dt*make_shared<MatVecFunc>(a, n));
+      
+    double t = 0;
+    for (int i = 0; i < steps; i++)
+      {
+        std::cout << "step " << i << std::endl;
+        for (int j = 0; j < s; j++)
+          my.Range(j*n, (j+1)*n) = y;
+        myold->Set(my);
+
+        mk = 0.0;
+        NewtonSolver (equ, mk);
+
+        for (int j = 0; j < s; j++)
+          y += dt * b(j) * mk.Range(j*n, (j+1)*n);
+        
+        t += dt;
+        if (callback) callback(t, y);
+      }
+
+  }
+
+  
+
+  
   
   
   
