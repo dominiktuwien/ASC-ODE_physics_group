@@ -138,7 +138,7 @@ namespace ASC_ode
     double t = 0;
     for (int i = 0; i < steps; i++)
       {
-        cout << "step " << i << endl;
+        std::cout << "step " << i << std::endl;
         for (int j = 0; j < s; j++)
           my.Range(j*n, (j+1)*n) = y;
         myold->Set(my);

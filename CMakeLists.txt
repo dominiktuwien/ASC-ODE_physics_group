@@ -27,4 +27,4 @@ add_executable (test_alpha demos/test_alpha.cc)
 add_executable (test_RC demos/test_RC.cc)
 
 
-#add_subdirectory (mass_spring)
+add_subdirectory (mass_spring)

@@ -273,7 +273,7 @@ namespace ASC_ode
       df = 0.0;
       for (size_t i = 0; i < num; i++)
         func->EvaluateDeriv(x.Range(i*fdimx, (i+1)*fdimx),
-                            df.Rows(i*fdimf, (i+1)*fdimf).Cols(i*fdimx, (i+1)*fdimx));
+                            df.Rows(i*fdimf, (i+1)*fdimf).Columns(i*fdimx, (i+1)*fdimx));
     }
   };
 
@@ -286,20 +286,20 @@ namespace ASC_ode
     MatVecFunc (Matrix<> _a, size_t _n)
       : a(_a), n(_n) { }
 
-    virtual size_t DimX() const { return n*a.Height(); } 
-    virtual size_t DimF() const { return n*a.Width(); }
+    virtual size_t DimX() const { return n*a.Get_height(); } 
+    virtual size_t DimF() const { return n*a.Get_width(); }
     virtual void Evaluate (VectorView<double> x, VectorView<double> f) const
     {
-      MatrixView<> mx(a.Width(), n, n, x.Data());
-      MatrixView<> mf(a.Height(), n, n, f.Data());
+      MatrixView<> mx(a.Get_width(), n, x.Data(), n);
+      MatrixView<> mf(a.Get_height(), n, f.Data(), n);
       mf = a * mx;
     }
     virtual void EvaluateDeriv (VectorView<double> x, MatrixView<double> df) const
     {
       df = 0.0;
-      for (size_t i = 0; i < a.Height(); i++)
-        for (size_t j = 0; j < a.Width(); j++)
-          df.Rows(i*n, (i+1)*n).Cols(j*n, (j+1)*n).Diag() = a(i,j);
+      for (size_t i = 0; i < a.Get_height(); i++)
+        for (size_t j = 0; j < a.Get_width(); j++)
+          df.Rows(i*n, (i+1)*n).Columns(j*n, (j+1)*n).Diag() = a(i,j);
     }
   };
 
